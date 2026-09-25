@@ -56,6 +56,25 @@ pnpm install
 pnpm run dev
 ```
 
+### Git hooks (Husky)
+
+This repo uses [Husky](https://typicode.github.io/husky/) to run a
+pre-commit check. The hook is **clone-safe and CI-safe**: it is a no-op
+whenever Husky is not installed (fresh clones, CI runners, tarball
+checkouts), and only enforces locally for contributors who have run
+`pnpm install` (which triggers the `prepare` script and installs the
+hooks).
+
+* **Contributors with Husky installed:** the pre-commit hook runs
+  automatically on `git commit`; fix any reported issues before
+  committing.
+* **Fresh clones / CI:** if Husky is absent, the hook exits successfully
+  instead of failing the commit or the pipeline. No install step is
+  required for CI to stay green.
+
+If you ever need to bypass the hook for a single commit, use
+`git commit --no-verify` (use sparingly).
+
 ### Environment variables
 
 All variables are optional in local development — sensible mock/default
@@ -136,5 +155,3 @@ cross-network or fabricated data.
 documented default (e.g. `NEXT_PUBLIC_MUX_API_URL` →
 `https://api.muxprotocol.com`) are applied automatically by `getEnv()`,
 so a production dep
-
-/* … truncated 3835 chars — edit only what you need near the top … */
